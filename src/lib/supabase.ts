@@ -1,37 +1,42 @@
-import { createBrowserClient } from '@supabase/ssr'
+import { createClient } from '@supabase/supabase-js';
 
-// Cliente para uso no browser (componentes client-side)
-export function createClient() {
-  return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// Tipos para o banco de dados
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: 'admin' | 'user';
+  created_at: string;
 }
 
-// Instância padrão para uso direto
-export const supabase = createClient()
-
-export function isSupabaseConfigured(): boolean {
-  return !!(
-    process.env.NEXT_PUBLIC_SUPABASE_URL && 
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
-    process.env.NEXT_PUBLIC_SUPABASE_URL !== 'your-project-url' &&
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY !== 'your-anon-key'
-  );
+export interface UserStats {
+  user_id: string;
+  level: number;
+  xp: number;
+  max_xp: number;
+  streak: number;
+  total_conversations: number;
 }
 
-export async function getUser() {
-  const client = createClient()
-  const { data: { user }, error } = await client.auth.getUser()
-  if (error) {
-    console.error('Error getting user:', error)
-    return null
-  }
-  return user
+export interface Mission {
+  id: string;
+  title: string;
+  description: string;
+  xp: number;
+  progress: number;
+  total: number;
+  completed: boolean;
 }
 
-export async function signOut() {
-  const client = createClient()
-  const { error } = await client.auth.signOut()
-  if (error) throw error
+export interface Activity {
+  id: string;
+  user_id: string;
+  activity_type: 'chat' | 'message' | 'roleplay' | 'analysis';
+  title: string;
+  created_at: string;
 }

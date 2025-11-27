@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light *));
 
 @theme inline {
   --color-background: var(--background);
@@ -86,6 +87,42 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* Light Mode - Tema Bege com Botões Neon */
+.light {
+  --background: oklch(0.96 0.02 85); /* Bege claro suave */
+  --foreground: oklch(0.25 0.01 85); /* Marrom escuro para texto */
+  --card: oklch(0.98 0.015 85); /* Bege muito claro para cards */
+  --card-foreground: oklch(0.25 0.01 85);
+  --popover: oklch(0.98 0.015 85);
+  --popover-foreground: oklch(0.25 0.01 85);
+  --primary: oklch(0.65 0.25 330); /* Rosa neon vibrante */
+  --primary-foreground: oklch(0.98 0.015 85);
+  --secondary: oklch(0.92 0.02 85); /* Bege médio */
+  --secondary-foreground: oklch(0.25 0.01 85);
+  --muted: oklch(0.94 0.02 85);
+  --muted-foreground: oklch(0.45 0.01 85);
+  --accent: oklch(0.7 0.25 280); /* Roxo neon */
+  --accent-foreground: oklch(0.98 0.015 85);
+  --destructive: oklch(0.6 0.25 25);
+  --border: oklch(0.88 0.02 85);
+  --input: oklch(0.92 0.02 85);
+  --ring: oklch(0.65 0.25 330);
+  --chart-1: oklch(0.65 0.25 330);
+  --chart-2: oklch(0.7 0.25 280);
+  --chart-3: oklch(0.6 0.25 200);
+  --chart-4: oklch(0.7 0.22 140);
+  --chart-5: oklch(0.68 0.24 60);
+  --sidebar: oklch(0.98 0.015 85);
+  --sidebar-foreground: oklch(0.25 0.01 85);
+  --sidebar-primary: oklch(0.65 0.25 330);
+  --sidebar-primary-foreground: oklch(0.98 0.015 85);
+  --sidebar-accent: oklch(0.94 0.02 85);
+  --sidebar-accent-foreground: oklch(0.25 0.01 85);
+  --sidebar-border: oklch(0.88 0.02 85);
+  --sidebar-ring: oklch(0.65 0.25 330);
+}
+
+/* Dark Mode - Tema Escuro Original */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -126,5 +163,80 @@
   }
   body {
     @apply bg-background text-foreground;
+    transition: background-color 0.5s ease, color 0.5s ease;
   }
+  
+  /* Transições suaves para elementos ao trocar tema */
+  .gradient-bg,
+  .neon-button,
+  [class*="bg-"],
+  [class*="text-"],
+  [class*="border-"] {
+    transition: all 0.5s ease;
+  }
+}
+
+/* Gradientes específicos para cada tema */
+.light .gradient-bg {
+  background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 50%, #F5E6D3 100%);
+}
+
+.dark .gradient-bg {
+  background: linear-gradient(135deg, #0D0D0D 0%, #1A1A1A 50%, #0D0D0D 100%);
+}
+
+/* Botões neon no light mode */
+.light .neon-button {
+  background: linear-gradient(135deg, #FF0080 0%, #9B4DFF 100%);
+  box-shadow: 0 0 20px rgba(255, 0, 128, 0.5), 0 0 40px rgba(155, 77, 255, 0.3);
+}
+
+.light .neon-button:hover {
+  box-shadow: 0 0 30px rgba(255, 0, 128, 0.7), 0 0 60px rgba(155, 77, 255, 0.5);
+}
+
+/* Animações customizadas para melhorias de UX */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out;
 }
